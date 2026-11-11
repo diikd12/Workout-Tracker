@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-// Palet warna air mewah per tema (RGB)
 const WATER_THEMES = {
   dark: {
     bg: [10, 10, 12],
