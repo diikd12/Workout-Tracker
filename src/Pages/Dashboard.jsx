@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import ExerciseItem from '../Components/ExerciseItem';
 import SaranLatihan from '../Components/SaranLatihan';
 import { getJadwalMingguan, getWorkoutData } from '../Data/workoutTemplates';
-import { Edit2, PlusCircle } from 'lucide-react';
+import { Edit2, PlusCircle, Moon, ClipboardList } from 'lucide-react';
+import WarmupTimer from '../Components/WarmupTimer';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -107,6 +108,11 @@ export default function Dashboard() {
         onSelectHari={setSelectedHari}
       />
 
+      {/* Timer Pemanasan (Warm-up) */}
+      {!isRestDay && (
+        <WarmupTimer jenisLatihan={jenisLatihanHariIni} />
+      )}
+
       {/* Daftar latihan hari ini */}
       <section>
         <div className="section-header">
@@ -131,13 +137,13 @@ export default function Dashboard() {
 
         {isRestDay ? (
           <div className="empty-state">
-            <p style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🛋️</p>
-            <h3>Hari Istirahat</h3>
-            <p>Otot tumbuh saat kamu istirahat. Nikmati!</p>
+            <Moon size={36} strokeWidth={1.5} style={{ color: 'var(--accent)', marginBottom: '0.75rem' }} />
+            <h3>Hari Pemulihan (Rest Day)</h3>
+            <p>Pemulihan adalah momen di mana serat otot beregenerasi dan membesar. Istirahatkan fisikmu untuk performa optimal esok hari.</p>
           </div>
         ) : todaysWorkout.length === 0 ? (
           <div className="empty-state">
-            <p style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>📋</p>
+            <ClipboardList size={36} strokeWidth={1.5} style={{ color: 'var(--text-muted)', marginBottom: '0.75rem' }} />
             <h3>Belum ada latihan</h3>
             <p>Tambahkan gerakan kustom untuk hari ini.</p>
           </div>

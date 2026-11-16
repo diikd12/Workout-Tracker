@@ -15,13 +15,12 @@ export default function SaranLatihan({ jadwal, selectedHari, onSelectHari }) {
             <button
               key={item.hari}
               className={cls}
-              onClick={() => !isRest && onSelectHari(item.hari)}
+              onClick={() => onSelectHari(item.hari)}
               aria-pressed={isSelected}
               aria-label={`${item.hari} — ${item.jenis}`}
-              disabled={isRest}
             >
               <span className="schedule-day">{item.hari.slice(0, 3)}</span>
-              <span className="schedule-type">{item.jenis === 'Rest Day' ? '—' : item.jenis}</span>
+              <span className="schedule-type">{item.jenis === 'Rest Day' ? 'REST' : item.jenis}</span>
             </button>
           );
         })}

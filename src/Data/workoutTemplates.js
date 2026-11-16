@@ -41,6 +41,25 @@ export const getJadwalMingguan = (jumlahHari) => {
   }
 };
 
+// YouTube video ID mapping for gym exercises
+const VIDEO_IDS = {
+  'Barbell Bench Press': 'rT7DgCr-3pg',
+  'Incline DB Press':    '8iPEnn-ltC8',
+  'Cable Fly':           'Iwe6AmxVf7o',
+  'Lat Pulldown':        'CAwf7n6Luuc',
+  'Barbell Row':         '9efgcAjQe7E',
+  'Cable Row':           'GZbfZ033f74',
+  'Overhead Press':      '2yjwXTZQDDI',
+  'Tricep Pushdown':     'REJmT8-HUrU',
+  'Barbell Squat':       'bEv6CCg2BC8',
+  'Leg Press':           'IZxyjW7MPJQ',
+  'Romanian Deadlift':   'JCXUYuzwNrM',
+  'Leg Curl':            '1Tq3QdYUuHs',
+  'Seated Leg Curl':     '1Tq3QdYUuHs',
+  'Standing Calf Raise': 'gwLzBJYoWlI',
+  'Barbell Curl':        'kwG2ipFRgfo',
+};
+
 // Database gerakan
 const DB = {
   kalistenik: {
@@ -137,53 +156,53 @@ const DB = {
 
   gym: {
     chest: [
-      { id: 1, name: 'Barbell Bench Press',   sets: 4, reps: '6–8',   tips: 'Pemanasan rotator cuff dulu. Dada turun ke bar.' },
-      { id: 2, name: 'Incline DB Press',      sets: 3, reps: '10–12', tips: 'Fokus dada atas, sudut sandaran 30–45°.' },
-      { id: 3, name: 'Cable Fly',             sets: 3, reps: '12–15', tips: 'Jaga siku sedikit menekuk, tarik ke depan dada.' },
+      { id: 1, name: 'Barbell Bench Press',   sets: 4, reps: '6–8',   tips: 'Pemanasan rotator cuff dulu. Dada turun ke bar.',  videoId: VIDEO_IDS['Barbell Bench Press'] },
+      { id: 2, name: 'Incline DB Press',      sets: 3, reps: '10–12', tips: 'Fokus dada atas, sudut sandaran 30–45°.',           videoId: VIDEO_IDS['Incline DB Press'] },
+      { id: 3, name: 'Cable Fly',             sets: 3, reps: '12–15', tips: 'Jaga siku sedikit menekuk, tarik ke depan dada.',  videoId: VIDEO_IDS['Cable Fly'] },
     ],
     back: [
-      { id: 4, name: 'Lat Pulldown',          sets: 3, reps: '10–12', tips: 'Tarik dengan siku mengarah ke bawah, bukan menarik pakai tangan.' },
-      { id: 5, name: 'Barbell Row',           sets: 4, reps: '6–8',   tips: 'Punggung lurus rata, tarik bar ke arah pusar.' },
-      { id: 6, name: 'Cable Row',             sets: 3, reps: '10–12', tips: 'Squeeze belikat punggung selama 1 detik di puncak.' },
+      { id: 4, name: 'Lat Pulldown',          sets: 3, reps: '10–12', tips: 'Tarik dengan siku mengarah ke bawah, bukan menarik pakai tangan.', videoId: VIDEO_IDS['Lat Pulldown'] },
+      { id: 5, name: 'Barbell Row',           sets: 4, reps: '6–8',   tips: 'Punggung lurus rata, tarik bar ke arah pusar.',    videoId: VIDEO_IDS['Barbell Row'] },
+      { id: 6, name: 'Cable Row',             sets: 3, reps: '10–12', tips: 'Squeeze belikat punggung selama 1 detik di puncak.', videoId: VIDEO_IDS['Cable Row'] },
     ],
     push: [
-      { id: 7, name: 'Barbell Bench Press',   sets: 4, reps: '6–8',   tips: 'Pemanasan rotator cuff dulu. Dada turun ke bar.' },
-      { id: 8, name: 'Incline DB Press',      sets: 3, reps: '10–12', tips: 'Fokus dada atas, sudut 30–45°.' },
-      { id: 9, name: 'Overhead Press',        sets: 3, reps: '8–10',  tips: 'Core kencang, bar naik vertikal di atas kepala.' },
-      { id: 10, name: 'Tricep Pushdown',      sets: 3, reps: '12–15', tips: 'Siku terkunci di samping badan.' },
+      { id: 7,  name: 'Barbell Bench Press',  sets: 4, reps: '6–8',   tips: 'Pemanasan rotator cuff dulu. Dada turun ke bar.',  videoId: VIDEO_IDS['Barbell Bench Press'] },
+      { id: 8,  name: 'Incline DB Press',     sets: 3, reps: '10–12', tips: 'Fokus dada atas, sudut 30–45°.',                   videoId: VIDEO_IDS['Incline DB Press'] },
+      { id: 9,  name: 'Overhead Press',       sets: 3, reps: '8–10',  tips: 'Core kencang, bar naik vertikal di atas kepala.', videoId: VIDEO_IDS['Overhead Press'] },
+      { id: 10, name: 'Tricep Pushdown',      sets: 3, reps: '12–15', tips: 'Siku terkunci di samping badan.',                  videoId: VIDEO_IDS['Tricep Pushdown'] },
     ],
     pull: [
-      { id: 11, name: 'Lat Pulldown',         sets: 3, reps: '10–12', tips: 'Tarik dengan siku, bukan tangan.' },
-      { id: 12, name: 'Barbell Row',          sets: 4, reps: '6–8',   tips: 'Punggung lurus, tarik ke perut bawah.' },
-      { id: 13, name: 'Cable Row',            sets: 3, reps: '10–12', tips: 'Squeeze punggung di puncak.' },
-      { id: 14, name: 'Barbell Curl',         sets: 3, reps: '10–12', tips: 'Full ROM, jangan swinging tubuh.' },
+      { id: 11, name: 'Lat Pulldown',         sets: 3, reps: '10–12', tips: 'Tarik dengan siku, bukan tangan.',                videoId: VIDEO_IDS['Lat Pulldown'] },
+      { id: 12, name: 'Barbell Row',          sets: 4, reps: '6–8',   tips: 'Punggung lurus, tarik ke perut bawah.',           videoId: VIDEO_IDS['Barbell Row'] },
+      { id: 13, name: 'Cable Row',            sets: 3, reps: '10–12', tips: 'Squeeze punggung di puncak.',                     videoId: VIDEO_IDS['Cable Row'] },
+      { id: 14, name: 'Barbell Curl',         sets: 3, reps: '10–12', tips: 'Full ROM, jangan swinging tubuh.',                videoId: VIDEO_IDS['Barbell Curl'] },
     ],
     leg: [
-      { id: 15, name: 'Barbell Squat',        sets: 4, reps: '5–8',   tips: 'Jaga arch pinggang, lutut mengarah ke ujung jari kaki.' },
-      { id: 16, name: 'Leg Press',            sets: 3, reps: '10–15', tips: 'Jangan sampai lutut mengunci lurus di atas.' },
-      { id: 17, name: 'Romanian Deadlift',    sets: 3, reps: '8–10',  tips: 'Hinge di pinggul, rasakan peregangan hamstring.' },
-      { id: 18, name: 'Leg Curl',             sets: 3, reps: '12–15', tips: 'Kontraksi hamstring maksimal di puncak gerakan.' },
+      { id: 15, name: 'Barbell Squat',        sets: 4, reps: '5–8',   tips: 'Jaga arch pinggang, lutut mengarah ke ujung jari kaki.', videoId: VIDEO_IDS['Barbell Squat'] },
+      { id: 16, name: 'Leg Press',            sets: 3, reps: '10–15', tips: 'Jangan sampai lutut mengunci lurus di atas.',     videoId: VIDEO_IDS['Leg Press'] },
+      { id: 17, name: 'Romanian Deadlift',    sets: 3, reps: '8–10',  tips: 'Hinge di pinggul, rasakan peregangan hamstring.', videoId: VIDEO_IDS['Romanian Deadlift'] },
+      { id: 18, name: 'Leg Curl',             sets: 3, reps: '12–15', tips: 'Kontraksi hamstring maksimal di puncak gerakan.', videoId: VIDEO_IDS['Leg Curl'] },
     ],
     upper: [
-      { id: 19, name: 'Barbell Bench Press',  sets: 4, reps: '6–8',   tips: 'Gerakan compound utama dada dan trisep.' },
-      { id: 20, name: 'Barbell Row',          sets: 4, reps: '8–10',  tips: 'Gerakan compound utama penyeimbang punggung.' },
-      { id: 21, name: 'Overhead Press',       sets: 3, reps: '8–10',  tips: 'Bahu tegap, dorong barbell lurus ke atas kepala.' },
-      { id: 22, name: 'Lat Pulldown',         sets: 3, reps: '10–12', tips: 'Fokus melebarkan otot sayap lats.' },
-      { id: 23, name: 'Tricep Pushdown',      sets: 3, reps: '12–15', tips: 'Finisher trisep kabel rope/bar.' },
+      { id: 19, name: 'Barbell Bench Press',  sets: 4, reps: '6–8',   tips: 'Gerakan compound utama dada dan trisep.',         videoId: VIDEO_IDS['Barbell Bench Press'] },
+      { id: 20, name: 'Barbell Row',          sets: 4, reps: '8–10',  tips: 'Gerakan compound utama penyeimbang punggung.',    videoId: VIDEO_IDS['Barbell Row'] },
+      { id: 21, name: 'Overhead Press',       sets: 3, reps: '8–10',  tips: 'Bahu tegap, dorong barbell lurus ke atas kepala.', videoId: VIDEO_IDS['Overhead Press'] },
+      { id: 22, name: 'Lat Pulldown',         sets: 3, reps: '10–12', tips: 'Fokus melebarkan otot sayap lats.',               videoId: VIDEO_IDS['Lat Pulldown'] },
+      { id: 23, name: 'Tricep Pushdown',      sets: 3, reps: '12–15', tips: 'Finisher trisep kabel rope/bar.',                 videoId: VIDEO_IDS['Tricep Pushdown'] },
     ],
     lower: [
-      { id: 24, name: 'Barbell Squat',        sets: 4, reps: '6–8',   tips: 'Kekuatan paha depan dan glutes secara menyeluruh.' },
-      { id: 25, name: 'Romanian Deadlift',    sets: 3, reps: '8–10',  tips: 'Fokus paha belakang dan rantai posterior.' },
-      { id: 26, name: 'Leg Press',            sets: 3, reps: '10–12', tips: 'Volume ekstra paha tanpa membebani tulang belakang.' },
-      { id: 27, name: 'Seated Leg Curl',      sets: 3, reps: '12–15', tips: 'Isolasi hamstring.' },
-      { id: 28, name: 'Standing Calf Raise',  sets: 4, reps: '15–20', tips: 'Full stretch di bawah, tahan 1 detik di atas.' },
+      { id: 24, name: 'Barbell Squat',        sets: 4, reps: '6–8',   tips: 'Kekuatan paha depan dan glutes secara menyeluruh.', videoId: VIDEO_IDS['Barbell Squat'] },
+      { id: 25, name: 'Romanian Deadlift',    sets: 3, reps: '8–10',  tips: 'Fokus paha belakang dan rantai posterior.',       videoId: VIDEO_IDS['Romanian Deadlift'] },
+      { id: 26, name: 'Leg Press',            sets: 3, reps: '10–12', tips: 'Volume ekstra paha tanpa membebani tulang belakang.', videoId: VIDEO_IDS['Leg Press'] },
+      { id: 27, name: 'Seated Leg Curl',      sets: 3, reps: '12–15', tips: 'Isolasi hamstring.',                              videoId: VIDEO_IDS['Seated Leg Curl'] },
+      { id: 28, name: 'Standing Calf Raise',  sets: 4, reps: '15–20', tips: 'Full stretch di bawah, tahan 1 detik di atas.',   videoId: VIDEO_IDS['Standing Calf Raise'] },
     ],
     shoulderChestBack: [
-      { id: 29, name: 'Overhead Press',       sets: 4, reps: '6–8',   tips: 'Prioritas utama bahu.' },
-      { id: 30, name: 'Incline DB Press',     sets: 3, reps: '8–10',  tips: 'Fokus dada bagian atas.' },
-      { id: 31, name: 'Lat Pulldown',         sets: 3, reps: '10–12', tips: 'Tarikan vertikal punggung.' },
-      { id: 32, name: 'Cable Fly',            sets: 3, reps: '12–15', tips: 'Isolasi peregangan dada.' },
-      { id: 33, name: 'Cable Row',            sets: 3, reps: '10–12', tips: 'Tarikan horizontal punggung tengah.' },
+      { id: 29, name: 'Overhead Press',       sets: 4, reps: '6–8',   tips: 'Prioritas utama bahu.',                           videoId: VIDEO_IDS['Overhead Press'] },
+      { id: 30, name: 'Incline DB Press',     sets: 3, reps: '8–10',  tips: 'Fokus dada bagian atas.',                         videoId: VIDEO_IDS['Incline DB Press'] },
+      { id: 31, name: 'Lat Pulldown',         sets: 3, reps: '10–12', tips: 'Tarikan vertikal punggung.',                      videoId: VIDEO_IDS['Lat Pulldown'] },
+      { id: 32, name: 'Cable Fly',            sets: 3, reps: '12–15', tips: 'Isolasi peregangan dada.',                        videoId: VIDEO_IDS['Cable Fly'] },
+      { id: 33, name: 'Cable Row',            sets: 3, reps: '10–12', tips: 'Tarikan horizontal punggung tengah.',             videoId: VIDEO_IDS['Cable Row'] },
     ],
   },
 };

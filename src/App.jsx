@@ -6,6 +6,8 @@ import Home from './Pages/Home';
 import Kuesioner from './Pages/Kuesioner';
 import Dashboard from './Pages/Dashboard';
 import TambahLatihan from './Pages/TambahLatihan';
+import Nutrisi from './Pages/Nutrisi';
+import Inbox from './Pages/Inbox';
 
 function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('appTheme') || 'dark');
@@ -29,6 +31,8 @@ function App() {
           <Route path="/kuesioner"      element={<Kuesioner />} />
           <Route path="/dashboard"      element={<Dashboard />} />
           <Route path="/tambah-latihan" element={<TambahLatihan />} />
+          <Route path="/nutrisi"        element={<Nutrisi />} />
+          <Route path="/inbox"          element={<Inbox />} />
         </Routes>
       </main>
     </>

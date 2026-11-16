@@ -1,45 +1,55 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import QuestionCard from '../Components/QuestionCard';
-import { ArrowRight, ArrowLeft, Save, CheckCircle2 } from 'lucide-react';
-
-const TOTAL_STEPS = 4;
+import { ArrowRight, ArrowLeft, Save } from 'lucide-react';
 
 export default function Kuesioner() {
   const navigate = useNavigate();
   const [step,    setStep]    = useState(1);
   const [answers, setAnswers] = useState({ fokus: '', hari: '', lokasi: '', alat: '' });
 
+  const totalSteps = answers.lokasi === 'gym' ? 3 : 4;
+
   const set = (field, value) => setAnswers((prev) => ({ ...prev, [field]: value }));
 
-  const handleSimpan = () => {
-    localStorage.setItem('workoutPlan', JSON.stringify(answers));
+  const handleSimpan = (overrides = {}) => {
+    const plan = { ...answers, ...overrides };
+    localStorage.setItem('workoutPlan', JSON.stringify(plan));
     navigate('/dashboard');
+  };
+
+  const handleLokasiSelect = (v) => {
+    set('lokasi', v);
+    if (v === 'gym') {
+      // Save immediately with alat:'gym', skip step 4
+      const plan = { ...answers, lokasi: 'gym', alat: 'gym' };
+      localStorage.setItem('workoutPlan', JSON.stringify(plan));
+      navigate('/dashboard');
+    }
   };
 
   const canNext =
     (step === 1 && !!answers.fokus)  ||
     (step === 2 && !!answers.hari)   ||
-    (step === 3 && !!answers.lokasi) ||
-    step === 4;
+    (step === 3 && !!answers.lokasi && answers.lokasi === 'rumah');
 
-  const isLastStep = step === 4;
-  const canSave = isLastStep && (answers.lokasi === 'gym' || !!answers.alat);
+  const isLastStep = step === totalSteps;
+  const canSave = isLastStep && !!answers.alat;
 
   return (
     <div className="kuesioner-wrap page-enter">
-      <div className="step-indicator" aria-label={`Langkah ${step} dari ${TOTAL_STEPS}`}>
-        {Array.from({ length: TOTAL_STEPS }, (_, i) => (
+      <div className="step-indicator" aria-label={`Langkah ${step} dari ${totalSteps}`}>
+        {Array.from({ length: totalSteps }, (_, i) => (
           <span
             key={i}
-            className={`step-dot ${i + 1 === step ? 'active' : i + 1 < step ? 'done' : ''}`}
+            className={`step-pill ${i + 1 === step ? 'active' : i + 1 < step ? 'done' : ''}`}
           />
         ))}
       </div>
 
       {step === 1 && (
         <QuestionCard
-          stepNum={1} totalSteps={TOTAL_STEPS}
+          stepNum={1} totalSteps={totalSteps}
           question="Apa fokus utamamu saat ini?"
           options={[
             { label: 'Bulking',  value: 'bulking' },
@@ -52,7 +62,7 @@ export default function Kuesioner() {
 
       {step === 2 && (
         <QuestionCard
-          stepNum={2} totalSteps={TOTAL_STEPS}
+          stepNum={2} totalSteps={totalSteps}
           question="Berapa hari kamu bisa latihan per minggu?"
           options={[
             { label: '2 Hari',       value: '2' },
@@ -67,40 +77,28 @@ export default function Kuesioner() {
 
       {step === 3 && (
         <QuestionCard
-          stepNum={3} totalSteps={TOTAL_STEPS}
+          stepNum={3} totalSteps={totalSteps}
           question="Di mana kamu akan latihan?"
           options={[
             { label: 'Rumah',   value: 'rumah' },
-            { label: 'Gym',           value: 'gym'   },
+            { label: 'Gym',     value: 'gym'   },
           ]}
           currentAnswer={answers.lokasi}
-          onSelect={(v) => set('lokasi', v)}
+          onSelect={handleLokasiSelect}
         />
       )}
 
       {step === 4 && answers.lokasi === 'rumah' && (
         <QuestionCard
-          stepNum={4} totalSteps={TOTAL_STEPS}
+          stepNum={4} totalSteps={totalSteps}
           question="Seberapa kuat kamu kalistenik?"
           options={[
-            { label: 'Kuat — Bodyweight murni',       value: 'kalistenik' },
+            { label: 'Kuat — Bodyweight murni',              value: 'kalistenik' },
             { label: 'Kurang — Pakai beban / Non-Kalistenik', value: 'nonKalistenik' },
           ]}
           currentAnswer={answers.alat}
           onSelect={(v) => set('alat', v)}
         />
-      )}
-
-      {step === 4 && answers.lokasi === 'gym' && (
-        <div className="question-card text-center" style={{ maxWidth: 520, width: '100%' }}>
-          <CheckCircle2 size={40} style={{ color: 'var(--success)', margin: '0 auto 1rem' }} />
-          <h2 style={{ fontSize: '1.3rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-            Mantap, siap gas! 💪
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
-            Program gym akan disesuaikan otomatis dengan alat yang tersedia.
-          </p>
-        </div>
       )}
 
       {/* Navigasi */}
@@ -124,7 +122,7 @@ export default function Kuesioner() {
           <button
             className="btn btn-primary"
             disabled={!canSave}
-            onClick={handleSimpan}
+            onClick={() => handleSimpan()}
             style={{ flex: 1 }}
           >
             <Save size={16} /> Simpan Program
