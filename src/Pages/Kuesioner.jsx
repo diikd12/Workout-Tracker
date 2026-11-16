@@ -93,8 +93,8 @@ export default function Kuesioner() {
           stepNum={4} totalSteps={totalSteps}
           question="Seberapa kuat kamu kalistenik?"
           options={[
-            { label: 'Kuat — Bodyweight murni',              value: 'kalistenik' },
-            { label: 'Kurang — Pakai beban / Non-Kalistenik', value: 'nonKalistenik' },
+            { label: 'Kuat',              value: 'kalistenik' },
+            { label: 'Kurang',            value: 'nonKalistenik' },
           ]}
           currentAnswer={answers.alat}
           onSelect={(v) => set('alat', v)}
