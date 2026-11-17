@@ -49,7 +49,7 @@ export default function ExerciseItem({ id, name, sets, reps, tips, videoId, medi
         {/* Body — accordion */}
         {isExpanded && (
           <div className="exercise-body">
-            {/* Area Video Gerakan (Sesuai sketsa kotak 'Gambar') */}
+            {/* Area Video Gerakan */}
             <div className="exercise-video-wrap">
               {media ? (
                 <video
@@ -78,7 +78,7 @@ export default function ExerciseItem({ id, name, sets, reps, tips, videoId, medi
               )}
             </div>
 
-            {/* Table Tips (Sesuai sketsa kotak 'Table Tips') */}
+            {/* Table Tips */}
             {tips && (
               <div className="exercise-tips-card">
                 <div className="exercise-tips-label">
@@ -89,7 +89,6 @@ export default function ExerciseItem({ id, name, sets, reps, tips, videoId, medi
               </div>
             )}
 
-            {/* Tombol Aksi (Sesuai sketsa kotak 'Selesai') */}
             <div className="exercise-actions">
               <button
                 className={`btn btn-sm ${isDone ? 'btn-secondary' : 'btn-success'}`}
