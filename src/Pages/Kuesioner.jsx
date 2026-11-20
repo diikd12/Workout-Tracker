@@ -12,29 +12,26 @@ export default function Kuesioner() {
 
   const set = (field, value) => setAnswers((prev) => ({ ...prev, [field]: value }));
 
-  const handleSimpan = (overrides = {}) => {
-    const plan = { ...answers, ...overrides };
+  const handleSimpan = () => {
+    const plan = {
+      ...answers,
+      alat: answers.lokasi === 'gym' ? 'gym' : answers.alat,
+    };
     localStorage.setItem('workoutPlan', JSON.stringify(plan));
     navigate('/dashboard');
   };
 
-  const handleLokasiSelect = (v) => {
-    set('lokasi', v);
-    if (v === 'gym') {
-      // Save immediately with alat:'gym', skip step 4
-      const plan = { ...answers, lokasi: 'gym', alat: 'gym' };
-      localStorage.setItem('workoutPlan', JSON.stringify(plan));
-      navigate('/dashboard');
-    }
-  };
+  const handleLokasiSelect = (v) => set('lokasi', v);
 
   const canNext =
-    (step === 1 && !!answers.fokus)  ||
-    (step === 2 && !!answers.hari)   ||
+    (step === 1 && !!answers.fokus) ||
+    (step === 2 && !!answers.hari)  ||
     (step === 3 && !!answers.lokasi && answers.lokasi === 'rumah');
 
   const isLastStep = step === totalSteps;
-  const canSave = isLastStep && !!answers.alat;
+  const canSave =
+    isLastStep &&
+    (answers.lokasi === 'gym' || !!answers.alat);
 
   return (
     <div className="kuesioner-wrap page-enter">
@@ -101,7 +98,6 @@ export default function Kuesioner() {
         />
       )}
 
-      {/* Navigasi */}
       <div className="nav-buttons">
         {step > 1 && (
           <button className="btn btn-secondary" onClick={() => setStep((s) => s - 1)}>
