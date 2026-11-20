@@ -21,7 +21,6 @@ export default function Dashboard() {
     setUserData(parsed);
     const jadwal = getJadwalMingguan(parsed.hari);
     setJadwalFull(jadwal);
-    // Langsung set ke hari pertama yang bukan Rest
     const firstActive = jadwal.find((j) => j.jenis !== 'Rest Day');
     if (firstActive) setSelectedHari(firstActive.hari);
   }, [navigate]);
@@ -53,12 +52,10 @@ export default function Dashboard() {
   }, [selectedHari, jadwalFull, userData]);
 
   const handleDelete = (idToDelete) => {
-    // Tandai deleted
     const deleted = JSON.parse(localStorage.getItem('deletedWorkouts')) || [];
     if (!deleted.includes(idToDelete)) {
       localStorage.setItem('deletedWorkouts', JSON.stringify([...deleted, idToDelete]));
     }
-    // Juga hapus dari customWorkouts kalau ada
     const customAll = JSON.parse(localStorage.getItem('customWorkouts')) || [];
     localStorage.setItem('customWorkouts', JSON.stringify(customAll.filter((i) => i.id !== idToDelete)));
     setTodaysWorkout((prev) => prev.filter((i) => i.id !== idToDelete));
