@@ -1,7 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Timer } from 'lucide-react';
 
-export default function WarmupTimer({ jenisLatihan }) {
+function playAlarm() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.4, 0.8].forEach((delay) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = 660;
+      gain.gain.setValueAtTime(0.5, ctx.currentTime + delay);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.5);
+      osc.start(ctx.currentTime + delay);
+      osc.stop(ctx.currentTime + delay + 0.5);
+    });
+  } catch (_) {}
+}
+
+export default function WarmupTimer({ jenisLatihan, onRunningChange }) {
   const [duration, setDuration] = useState(600);
   const [timeLeft, setTimeLeft] = useState(600);
   const [running, setRunning] = useState(false);
@@ -28,6 +46,8 @@ export default function WarmupTimer({ jenisLatihan }) {
       setRunning(false);
       setFinished(true);
       clearInterval(intervalRef.current);
+      playAlarm();
+      if (onRunningChange) onRunningChange(false);
     }
     return () => clearInterval(intervalRef.current);
   }, [running, timeLeft]);
@@ -37,6 +57,7 @@ export default function WarmupTimer({ jenisLatihan }) {
     setTimeLeft(duration);
     setFinished(false);
     clearInterval(intervalRef.current);
+    if (onRunningChange) onRunningChange(false);
   };
 
   const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
@@ -91,7 +112,11 @@ export default function WarmupTimer({ jenisLatihan }) {
             <button className="btn btn-secondary warmup-ctrl-btn" onClick={reset} aria-label="Reset">
               <RotateCcw size={15} strokeWidth={1.5} />
             </button>
-            <button className="btn btn-primary warmup-ctrl-btn" onClick={() => setRunning(r => !r)}>
+            <button className="btn btn-primary warmup-ctrl-btn" onClick={() => {
+                const next = !running;
+                setRunning(next);
+                if (onRunningChange) onRunningChange(next);
+              }}>
               {running ? <Pause size={16} strokeWidth={1.5} /> : <Play size={16} strokeWidth={1.5} />}
               {running ? 'Jeda' : 'Mulai'}
             </button>

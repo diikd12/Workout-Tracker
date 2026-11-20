@@ -1,7 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { X, Plus } from 'lucide-react';
 
-export default function RestTimer({ onClose }) {
+function playAlarm() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.3, 0.6].forEach((delay) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.4, ctx.currentTime + delay);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.4);
+      osc.start(ctx.currentTime + delay);
+      osc.stop(ctx.currentTime + delay + 0.4);
+    });
+  } catch (_) {}
+}
+
+export default function RestTimer({ onClose, onFinish }) {
   const DURATION = 300;
   const [timeLeft, setTimeLeft] = useState(DURATION);
   const [finished, setFinished] = useState(false);
@@ -13,6 +31,8 @@ export default function RestTimer({ onClose }) {
         if (t <= 1) {
           clearInterval(intervalRef.current);
           setFinished(true);
+          playAlarm();
+          if (onFinish) onFinish();
           return 0;
         }
         return t - 1;
@@ -57,8 +77,13 @@ export default function RestTimer({ onClose }) {
             <span>30s</span>
           </button>
         )}
-        <button className="rest-pill-btn rest-pill-close" onClick={onClose} aria-label="Tutup">
-          {finished ? 'Oke' : <X size={13} strokeWidth={2} />}
+        <button
+          className="rest-pill-btn rest-pill-close"
+          onClick={onClose}
+          disabled={!finished}
+          aria-label="Tutup"
+        >
+          {finished ? 'Lanjut' : <X size={13} strokeWidth={2} />}
         </button>
       </div>
     </div>

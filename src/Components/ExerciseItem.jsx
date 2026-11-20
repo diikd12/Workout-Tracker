@@ -2,30 +2,39 @@ import { useState } from 'react';
 import { CheckCircle2, Circle, Trash2, ChevronDown, Dumbbell, Info } from 'lucide-react';
 import RestTimer from './RestTimer';
 
-export default function ExerciseItem({ id, name, sets, reps, tips, videoId, media, onDelete }) {
+export default function ExerciseItem({ id, name, sets, reps, tips, videoId, media, onDelete, locked, onRestStart, onRestEnd }) {
   const [isDone,     setIsDone]     = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showRest,   setShowRest]   = useState(false);
 
   const handleDone = (e) => {
     e.stopPropagation();
+    if (locked) return;
     const next = !isDone;
     setIsDone(next);
-    if (next) setShowRest(true);
-    else setShowRest(false);
+    if (next) { setShowRest(true); if (onRestStart) onRestStart(); }
+    else      { setShowRest(false); if (onRestEnd) onRestEnd(); }
   };
+
+  const handleClose = () => {
+    setShowRest(false);
+    if (onRestEnd) onRestEnd();
+  };
+
+  const handleToggle = () => { if (!locked) setIsExpanded(p => !p); };
 
   return (
     <>
-      <div className={`exercise-card${isDone ? ' done' : ''}`}>
+      <div className={`exercise-card${isDone ? ' done' : ''}${locked ? ' ex-locked' : ''}`}>
         {/* Header — klik untuk expand */}
         <div
           className="exercise-header"
-          onClick={() => setIsExpanded((p) => !p)}
+          onClick={handleToggle}
           role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && setIsExpanded((p) => !p)}
+          tabIndex={locked ? -1 : 0}
+          onKeyDown={(e) => e.key === 'Enter' && handleToggle()}
           aria-expanded={isExpanded}
+          aria-disabled={locked}
         >
           <span className="exercise-status">
             {isDone
@@ -110,7 +119,7 @@ export default function ExerciseItem({ id, name, sets, reps, tips, videoId, medi
         )}
       </div>
 
-      {showRest && <RestTimer onClose={() => setShowRest(false)} />}
+      {showRest && <RestTimer onClose={handleClose} />}
     </>
   );
 }

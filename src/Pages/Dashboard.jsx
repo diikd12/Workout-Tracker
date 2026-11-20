@@ -13,7 +13,7 @@ export default function Dashboard() {
   const [jadwalFull,           setJadwalFull]           = useState([]);
   const [todaysWorkout,        setTodaysWorkout]        = useState([]);
   const [jenisLatihanHariIni,  setJenisLatihanHariIni]  = useState('');
-
+  const [isLocked,             setIsLocked]             = useState(false);
   useEffect(() => {
     const saved = localStorage.getItem('workoutPlan');
     if (!saved) { navigate('/kuesioner'); return; }
@@ -107,7 +107,7 @@ export default function Dashboard() {
 
       {/* Timer Pemanasan (Warm-up) */}
       {!isRestDay && (
-        <WarmupTimer jenisLatihan={jenisLatihanHariIni} />
+        <WarmupTimer jenisLatihan={jenisLatihanHariIni} onRunningChange={setIsLocked} />
       )}
 
       {/* Daftar latihan hari ini */}
@@ -147,7 +147,14 @@ export default function Dashboard() {
         ) : (
           <div className="exercise-list">
             {todaysWorkout.map((ex) => (
-              <ExerciseItem key={ex.id} {...ex} onDelete={handleDelete} />
+              <ExerciseItem
+                key={ex.id}
+                {...ex}
+                onDelete={handleDelete}
+                locked={isLocked}
+                onRestStart={() => setIsLocked(true)}
+                onRestEnd={() => setIsLocked(false)}
+              />
             ))}
           </div>
         )}

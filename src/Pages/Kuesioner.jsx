@@ -98,6 +98,7 @@ export default function Kuesioner() {
         />
       )}
 
+      {/* Navigasi */}
       <div className="nav-buttons">
         {step > 1 && (
           <button className="btn btn-secondary" onClick={() => setStep((s) => s - 1)}>
